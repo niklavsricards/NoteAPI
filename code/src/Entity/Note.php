@@ -72,4 +72,14 @@ class Note
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        return [
+            "id" => $this->getId(),
+            "title" => $this->getTitle(),
+            "created_time" => $this->getCreatedTime(),
+            "text" => $this->getText()
+        ];
+    }
 }

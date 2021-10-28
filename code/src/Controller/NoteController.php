@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Note;
+use App\Repository\NoteRepository;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+
+class NoteController extends AbstractController
+{
+    private NoteRepository $noteRepository;
+
+    public function __construct(NoteRepository $noteRepository)
+    {
+        $this->noteRepository = $noteRepository;
+    }
+
+
+    /**
+     * @Route("/notes/add", name="add_note", methods={"POST"})
+     */
+    public function add(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $title = $data['title'];
+        $createdAt = new \DateTime();
+        $text = $data['text'];
+
+
+        if (empty($title) || empty($text)) {
+            throw new NotFoundHttpException('All parameters should be filled');
+        }
+
+        $this->noteRepository->addNote($title, $createdAt, $text);
+
+        return new JsonResponse(['status' => 'Note successfully created'], Response::HTTP_CREATED);
+    }
+
+    #[Route('/note', name: 'note')]
+    public function index(): Response
+    {
+
+        return $this->render('note/index.html.twig', [
+            'controller_name' => 'NoteController',
+        ]);
+    }
+}

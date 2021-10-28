@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Note;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,9 +15,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class NoteRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private EntityManagerInterface $manager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Note::class);
+        $this->manager = $manager;
+    }
+
+    public function addNote(string $title, \DateTime $createdAt, string $text)
+    {
+        $note = new Note();
+
+        $note->setTitle($title);
+        $note->setCreatedTime($createdAt);
+        $note->setText($text);
+
+        $this->manager->persist($note);
+        $this->manager->flush();
     }
 
     // /**
