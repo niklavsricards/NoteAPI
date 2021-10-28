@@ -23,7 +23,7 @@ class NoteRepository extends ServiceEntityRepository
         $this->manager = $manager;
     }
 
-    public function addNote(string $title, \DateTime $createdAt, string $text)
+    public function addNote(string $title, \DateTime $createdAt, string $text): void
     {
         $note = new Note();
 
@@ -42,6 +42,13 @@ class NoteRepository extends ServiceEntityRepository
 
         return $note;
     }
+
+    public function removeCustomer(Note $note): void
+    {
+        $this->manager->remove($note);
+        $this->manager->flush();
+    }
+
 
     // /**
     //  * @return Note[] Returns an array of Note objects

@@ -83,10 +83,27 @@ class NoteController extends AbstractController
         return new JsonResponse($newNote->toArray(), Response::HTTP_OK);
     }
 
+    /**
+     * @Route("/notes/{id}", name="delete", methods={"DELETE"})
+     */
+    public function delete($id): JsonResponse
+    {
+        $note = $this->noteRepository->findOneBy(['id' => $id]);
+
+        if (!$note) {
+            throw $this->createNotFoundException(
+                'No note found for id provided'
+            );
+        }
+
+        $this->noteRepository->removeCustomer($note);
+
+        return new JsonResponse(['status' => 'Note deleted successfully'], Response::HTTP_OK);
+    }
+
     #[Route('/note', name: 'note')]
     public function index(): Response
     {
-
         return $this->render('note/index.html.twig', [
             'controller_name' => 'NoteController',
         ]);
