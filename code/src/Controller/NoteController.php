@@ -60,6 +60,29 @@ class NoteController extends AbstractController
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
+    /**
+     * @Route("/notes/{id}", name="update", methods={"PUT"})
+     */
+    public function update($id, Request $request): JsonResponse
+    {
+        $note = $this->noteRepository->findOneBy(['id' => $id]);
+
+        if (!$note) {
+            throw $this->createNotFoundException(
+                'No note found for id provided'
+            );
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        empty($data['title']) ? true : $note->setTitle($data['title']);
+        empty($data['text']) ? true : $note->setText($data['text']);
+
+        $newNote = $this->noteRepository->updateNote($note);
+
+        return new JsonResponse($newNote->toArray(), Response::HTTP_OK);
+    }
+
     #[Route('/note', name: 'note')]
     public function index(): Response
     {

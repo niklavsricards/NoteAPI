@@ -35,6 +35,14 @@ class NoteRepository extends ServiceEntityRepository
         $this->manager->flush();
     }
 
+    public function updateNote(Note $note): Note
+    {
+        $this->manager->persist($note);
+        $this->manager->flush();
+
+        return $note;
+    }
+
     // /**
     //  * @return Note[] Returns an array of Note objects
     //  */
