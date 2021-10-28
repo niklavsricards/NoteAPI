@@ -43,6 +43,23 @@ class NoteController extends AbstractController
         return new JsonResponse(['status' => 'Note successfully created'], Response::HTTP_CREATED);
     }
 
+    /**
+     * @Route("/notes/{id}", name="one_note", methods={"GET"})
+     */
+    public function get($id): JsonResponse
+    {
+        $note = $this->noteRepository->findOneBy(['id' => $id]);
+
+        $data = [
+            "id" => $note->getId(),
+            "title" => $note->getTitle(),
+            "created_time" => $note->getCreatedTime(),
+            "text" => $note->getText()
+        ];
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
     #[Route('/note', name: 'note')]
     public function index(): Response
     {
