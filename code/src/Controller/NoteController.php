@@ -21,7 +21,6 @@ class NoteController extends AbstractController
         $this->noteRepository = $noteRepository;
     }
 
-
     /**
      * @Route("/notes/add", name="add_note", methods={"POST"})
      */
@@ -99,6 +98,28 @@ class NoteController extends AbstractController
         $this->noteRepository->removeCustomer($note);
 
         return new JsonResponse(['status' => 'Note deleted successfully'], Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/notes", name="all_notes", methods={"GET"})
+     */
+    public function getAll(): JsonResponse
+    {
+        $notes = $this->noteRepository->findAll();
+
+        $data = [];
+
+        foreach ($notes as $note)
+        {
+            $data[] = [
+                "id" => $note->getId(),
+                "title" => $note->getTitle(),
+                "created_time" => $note->getCreatedTime(),
+                "text" => $note->getText()
+            ];
+        }
+
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     #[Route('/note', name: 'note')]
