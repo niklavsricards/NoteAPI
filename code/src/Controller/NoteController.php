@@ -50,6 +50,12 @@ class NoteController extends AbstractController
     {
         $note = $this->noteRepository->findOneBy(['id' => $id]);
 
+        if (!$note) {
+            throw $this->createNotFoundException(
+                'No note found for id provided'
+            );
+        }
+
         $data = [
             "id" => $note->getId(),
             "title" => $note->getTitle(),
