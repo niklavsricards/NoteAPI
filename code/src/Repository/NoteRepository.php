@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Note;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -43,39 +44,32 @@ class NoteRepository extends ServiceEntityRepository
         return $note;
     }
 
-    public function removeCustomer(Note $note): void
+    public function removeNote(Note $note): void
     {
         $this->manager->remove($note);
         $this->manager->flush();
     }
 
-
-    // /**
-    //  * @return Note[] Returns an array of Note objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Note[] Returns an array of Note objects
+     */
+    public function findByCriteria(string $limit, string $sortBy, string $search)
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        if (empty($limit)) {
+            return $this->createQueryBuilder('n')
+                ->where('n.text LIKE :val')
+                ->setParameter(':val', '%' . $search . '%')
+                ->orderBy('n.created_time', $sortBy)
+                ->getQuery()
+                ->getResult();
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Note
-    {
         return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
+            ->where('n.text LIKE :val')
+            ->setParameter(':val', '%' . $search . '%')
+            ->orderBy('n.created_time', $sortBy)
+            ->setMaxResults($limit)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

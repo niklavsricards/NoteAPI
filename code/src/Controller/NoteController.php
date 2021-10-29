@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Note;
 use App\Repository\NoteRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -95,7 +96,7 @@ class NoteController extends AbstractController
             );
         }
 
-        $this->noteRepository->removeCustomer($note);
+        $this->noteRepository->removeNote($note);
 
         return new JsonResponse(['status' => 'Note deleted successfully'], Response::HTTP_OK);
     }
@@ -103,9 +104,31 @@ class NoteController extends AbstractController
     /**
      * @Route("/notes", name="all_notes", methods={"GET"})
      */
-    public function getAll(): JsonResponse
+    public function getAll(Request $request): JsonResponse
     {
-        $notes = $this->noteRepository->findAll();
+        $vars = $request->query->all();
+
+        // In case of no query parameters (e.g. /notes or /notes?search= )
+        if (empty($vars)) {
+            //Desc is default - newest first
+            $notes = $this->noteRepository->findBy([], ['created_time' => 'DESC']);
+        } else {
+            $limit = $vars['limit'];
+            $sortBy = $vars['sortby'];
+            $search = $vars['search'];
+
+            $sortBy = ($sortBy != 'ASC') ? 'DESC' : 'ASC';
+
+            //if only sort by is provided
+            if (empty($search) && empty($limit)) {
+                $notes = $this->noteRepository->findBy([], ['created_time' => $sortBy]);
+            } else {
+                $limit = (is_numeric($limit) || empty($limit)) ? $limit : throw $this->createNotFoundException(
+                    'Limit should be a numeric value'
+                );
+                $notes = $this->noteRepository->findByCriteria($limit, $sortBy, $search);
+            }
+        }
 
         $data = [];
 
@@ -120,13 +143,5 @@ class NoteController extends AbstractController
         }
 
         return new JsonResponse($data, Response::HTTP_OK);
-    }
-
-    #[Route('/note', name: 'note')]
-    public function index(): Response
-    {
-        return $this->render('note/index.html.twig', [
-            'controller_name' => 'NoteController',
-        ]);
     }
 }
