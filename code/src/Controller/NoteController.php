@@ -44,7 +44,7 @@ class NoteController extends AbstractController
     }
 
     /**
-     * @Route("/notes/{id}", name="one_note", methods={"GET"})
+     * @Route("/notes/{id}", name="get_one_note", methods={"GET"})
      */
     public function get($id): JsonResponse
     {
@@ -67,7 +67,7 @@ class NoteController extends AbstractController
     }
 
     /**
-     * @Route("/notes/{id}", name="update", methods={"PUT"})
+     * @Route("/notes/{id}", name="update_note", methods={"PUT"})
      */
     public function update($id, Request $request): JsonResponse
     {
@@ -90,7 +90,7 @@ class NoteController extends AbstractController
     }
 
     /**
-     * @Route("/notes/{id}", name="delete", methods={"DELETE"})
+     * @Route("/notes/{id}", name="delete_note", methods={"DELETE"})
      */
     public function delete($id): JsonResponse
     {
@@ -108,7 +108,7 @@ class NoteController extends AbstractController
     }
 
     /**
-     * @Route("/notes", name="all_notes", methods={"GET"})
+     * @Route("/notes", name="get_all_notes", methods={"GET"})
      */
     public function getAll(Request $request): JsonResponse
     {

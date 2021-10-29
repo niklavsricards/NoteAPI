@@ -32,6 +32,13 @@ class Note
      */
     private $text;
 
+    public function __construct(string $title, \DateTimeInterface $createdTime, string $text)
+    {
+        $this->title = $title;
+        $this->created_time = $createdTime;
+        $this->text = $text;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,11 +49,9 @@ class Note
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
     public function getCreatedTime(): ?\DateTimeInterface
@@ -54,11 +59,9 @@ class Note
         return $this->created_time;
     }
 
-    public function setCreatedTime(\DateTimeInterface $created_time): self
+    public function setCreatedTime(\DateTimeInterface $created_time): void
     {
         $this->created_time = $created_time;
-
-        return $this;
     }
 
     public function getText(): ?string
@@ -66,11 +69,9 @@ class Note
         return $this->text;
     }
 
-    public function setText(string $text): self
+    public function setText(string $text): void
     {
         $this->text = $text;
-
-        return $this;
     }
 
     public function toArray(): array

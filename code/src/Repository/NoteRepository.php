@@ -26,11 +26,11 @@ class NoteRepository extends ServiceEntityRepository
 
     public function addNote(string $title, \DateTime $createdAt, string $text): void
     {
-        $note = new Note();
-
-        $note->setTitle($title);
-        $note->setCreatedTime($createdAt);
-        $note->setText($text);
+        $note = new Note(
+            $title,
+            $createdAt,
+            $text
+        );
 
         $this->manager->persist($note);
         $this->manager->flush();
