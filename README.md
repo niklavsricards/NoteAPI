@@ -9,21 +9,20 @@ Symfony based note API. Provides API endpoints to create, read, update and delet
 3. Gain access to php bash shell - `docker exec -it php bash`
 4. Go to root of symfony project - `cd code`
 5. Install dependencies - `composer install`
-6. Open site in browser [localhost:8001](http://localhost:8001)
+6. Run database migrations to create nessecarry tables - `php bin/console doctrine:migrations:migrate`
+7. It is recommended to fill database with fake data for testing purposes. Optional is this [package](https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html) for symfony.
+8. Open site in browser [localhost:8001](http://localhost:8001). If you see symfony welcome page then every is setup correctly.
+9. Install [Postman](https://www.postman.com/downloads/) for easier API call testing.
 
-## Tasks
+## API endpoints
 
-1. Copy this repository to your own GitHub account.
-2. Add phpmyadmin container to docker compose. Document access in README.md
-3. Create Note entity. Note has id, title, created time and text.
-4. Make sure to generate migrations for database tables/schema.
-5. Write code for all routes in NoteController so that application fulfills CRUD tasks.
-   1. `/notes/add` - Add new note.
-   2. `/notes/{id}` - Get note by id.
-   3. `/notes/{id}` - Put an update to note by id.
-   4. `/notes/{id}` - Delete a note by id.
-   5. `/notes` - Get all notes ordered by date (The newest first). Add options to limit results, change sorting order and search note by text.
-6. Add documentation and comments as needed using best practices.
-7. Create Pull Request on your own repository describing changes. Add manual testing scenarios for each functionality in PR.
-8. (Optional) Write unit or web tests.
-9. Send us a link to your PR.
+1. `http://localhost:8001/notes/add` - Add new note.
+2. `http://localhost:8001/notes/{id}` - Get note by id.
+3. `http://localhost:8001/notes/{id}` - Put an update to note by id.
+4. `http://localhost:8001/notes/{id}` - Delete a note by id.
+5. `http://localhost:8001/notes?limit=&sortby=&search=` or `http://localhost:8001/notes`
+   1. Query parameters have to be limit, sortby and search. If any are excluded it will return result with the parameters provided.
+   2. Alternativly you can call `/notes` without query parameters and get all results. 
+
+## Manual testing scenarios using Postman
+
