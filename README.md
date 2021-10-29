@@ -14,6 +14,9 @@ Symfony based note API. Provides API endpoints to create, read, update and delet
 8. Open site in browser [localhost:8001](http://localhost:8001). If you see symfony welcome page then every is setup correctly.
 9. Install [Postman](https://www.postman.com/downloads/) for easier API call testing.
 
+Additional information:
+1. To access phpmyadmin terminal username and password from `docker-compose.yml` file has to be used.
+
 ## API endpoints
 
 1. `http://localhost:8001/notes/add` - Add new note.
@@ -23,6 +26,11 @@ Symfony based note API. Provides API endpoints to create, read, update and delet
 5. `http://localhost:8001/notes?limit=&sortby=&search=` or `http://localhost:8001/notes`
    1. Query parameters have to be limit, sortby and search. If any are excluded it will return result with the parameters provided.
    2. Alternativly you can call `/notes` without query parameters and get all results. 
+   3. `'ASC'` and `'DESC'` are only valid values for sortby key.
+
+Note `{id}` has to be valid id. Otherwise exception is thrown.
 
 ## Manual testing scenarios using Postman
+
+1. 
 
