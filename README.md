@@ -32,5 +32,26 @@ Note `{id}` has to be valid id. Otherwise exception is thrown.
 
 ## Manual testing scenarios using Postman
 
-1. 
+1. Manual testing scenario: adding note with `/notes/add`. The request contains json with data to be added as per image below. Both values are mandatory, if any is not provided exception is thrown. 
+![first_image](https://github.com/niklavsricards/NoteAPI/blob/main/docs/Screenshot_1.png)
 
+2. Manual testing scenario: geting a single note by id with `/notes/{id}`. If note is not found by id then exception is thrown.
+![second_image](https://github.com/niklavsricards/NoteAPI/blob/main/docs/Screenshot_2.png)
+
+3. Manual testing scenario: updating a note by id `/notes/{id}`. If note is not found by id then exception is thrown. PUT method is used. Values provided in json are being updated.
+![third_image](https://github.com/niklavsricards/NoteAPI/blob/main/docs/Screenshot_3.png)
+
+4. Manual testing scenario: deleting a note by id `/notes/{id}`. If note is not found by id then exception is thrown. DELETE method is used. On succesful deletion a json reponse is returned as per image.
+![fourth_image](https://github.com/niklavsricards/NoteAPI/blob/main/docs/Screenshot_4.png)
+
+5. Manual testing scenario: geting all notes based on query parameters in endpoint `/notes?limit=&sortby=&search=`.
+In this case scenario only one parameter is provided, therefore showing that not all have to be filled and search also is working.
+![fifth_image](https://github.com/niklavsricards/NoteAPI/blob/main/docs/Screenshot_5.png)
+
+6. Manual testing scenario: geting all notes without any query parameters defined in endpoint `/notes`. 
+Default sorting is starting with newest.
+![sixth_image](https://github.com/niklavsricards/NoteAPI/blob/main/docs/Screenshot_6.png)
+
+7. Manual testing scenario: geting all based on parameters provided in `/notes?limit=&sortby=&search=`.
+In this case limit and flipped sorting is applied. Result returns two notes and sorted started with oldest.
+![seventh_image](https://github.com/niklavsricards/NoteAPI/blob/main/docs/Screenshot_7.png)
